@@ -1,7 +1,7 @@
-using System;
 using AutoMapper;
+using System;
 using TestCreator.Data.Models;
-using TestCreator.WebAPI.Data;
+using TestCreator.WebAPI.Dtos.Tests;
 
 namespace TestCreator.WebAPI.Profiles
 {
@@ -11,7 +11,7 @@ namespace TestCreator.WebAPI.Profiles
         {
             // Source -> target
             CreateMap<CreateTestInput, Test>()
-                .ForMember(t => t.Id, options => 
+                .ForMember(t => t.Id, options =>
                     options.MapFrom(_ => Guid.NewGuid().ToString()));
         }
     }

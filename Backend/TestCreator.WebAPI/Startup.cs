@@ -14,6 +14,7 @@ using System.Text;
 using TestCreator.Data.DbContexts;
 using TestCreator.Data.Models;
 using TestCreator.Data.Repositories;
+using TestCreator.Services.Auth;
 
 namespace TestCreator.WebAPI
 {
@@ -29,11 +30,12 @@ namespace TestCreator.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => 
+            services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
             });
 
+            services.AddScoped<JwtTokenCreator>();
             services.AddScoped<UnitOfWork>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -62,7 +64,8 @@ namespace TestCreator.WebAPI
                     config.SaveToken = true;
                     config.TokenValidationParameters = new TokenValidationParameters
                     {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("qwerty")),
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(Configuration["SigningKeyPhrase"])),
                         ValidateIssuerSigningKey = true,
                         ValidateAudience = false,
                         ValidateIssuer = false

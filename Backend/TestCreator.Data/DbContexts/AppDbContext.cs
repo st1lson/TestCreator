@@ -15,8 +15,8 @@ namespace TestCreator.Data.DbContexts
         public DbSet<Variant> Variants { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        { 
-            
+        {
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -27,7 +27,7 @@ namespace TestCreator.Services.Auth
 
             string signingKeyPhrase = _configuration["SigningKeyPhrase"];
             SymmetricSecurityKey signingKey = new(Encoding.UTF8.GetBytes(signingKeyPhrase));
-            SigningCredentials credentials = new(signingKey, SecurityAlgorithms.RsaPKCS1);
+            SigningCredentials credentials = new(signingKey, SecurityAlgorithms.HmacSha256);
 
             DateTime expires = DateTime.Now.AddMinutes(20);
 
