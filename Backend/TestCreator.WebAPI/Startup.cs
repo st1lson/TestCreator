@@ -2,15 +2,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Text;
 using TestCreator.Data.DbContexts;
 using TestCreator.Data.Models;
+using TestCreator.Data.Repositories;
 
 namespace TestCreator.WebAPI
 {
@@ -26,12 +29,14 @@ namespace TestCreator.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddDbContext<AppDbContext>(options => 
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestCreator.WebAPI", Version = "v1" });
+                options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
             });
+
+            services.AddScoped<UnitOfWork>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services
                 .AddIdentity<User, IdentityRole>(options =>
@@ -67,6 +72,12 @@ namespace TestCreator.WebAPI
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Auth", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Auth"));
+            });
+
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestCreator.WebAPI", Version = "v1" });
             });
         }
 

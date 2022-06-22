@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestCreator.Data.Models;
 using TestCreator.Data.Repositories;
+using TestCreator.WebAPI.Data;
 
 namespace TestCreator.WebAPI.Controllers
 {
@@ -17,11 +19,13 @@ namespace TestCreator.WebAPI.Controllers
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public TestController(UnitOfWork unitOfWork, UserManager<User> userManager)
+        public TestController(UnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -30,6 +34,7 @@ namespace TestCreator.WebAPI.Controllers
         {
             string userId = accessor.HttpContext!.User.Claims.First().Value;
             IEnumerable<Test> tests = _unitOfWork.TestRepository.Get(t => t.UserId == userId);
+
             return Ok(tests);
         }
 
@@ -49,9 +54,21 @@ namespace TestCreator.WebAPI.Controllers
 
         [HttpPost]
         [Authorize(Policy = "Auth")]
-        public async Task<IActionResult> Create(List<Question> questions)
+        public async Task<IActionResult> Create([FromServices] IHttpContextAccessor accessor, CreateTestInput input)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            Test newTest = _mapper.Map<Test>(input);
+            string userId = accessor.HttpContext!.User.Claims.First().Value;
+            newTest.UserId = userId;
+
+            Test createdTest = _unitOfWork.TestRepository.Insert(newTest);
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok(createdTest);
         }
     }
 }
