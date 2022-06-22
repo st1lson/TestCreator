@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 using TestCreator.Data.Models;
 using TestCreator.Services.Auth;
 using TestCreator.WebAPI.Dtos.Auth.Inputs;
 using TestCreator.WebAPI.Dtos.Auth.Payloads;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace TestCreator.WebAPI.Controllers
 {
@@ -45,7 +47,30 @@ namespace TestCreator.WebAPI.Controllers
 
             var (token, _) = _tokenCreator.CreateAuthToken(user);
 
-            return Ok(new RegisterUserPayload(token, user.UserName));
+            return Ok(new LoginUserPayload(token, user.UserName));
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login(LoginUserInput input)
+        {
+            User user = _userManager.Users.FirstOrDefault(u => u.UserName == input.UserName);
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            SignInResult result = await _signInManager
+                .PasswordSignInAsync(user, input.Password, isPersistent: false, lockoutOnFailure: false);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest();
+            }
+
+            var (token, _) = _tokenCreator.CreateAuthToken(user);
+            
+            return Ok(new LoginUserPayload(token, user.UserName));
         }
     }
 }
