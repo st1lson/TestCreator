@@ -1,0 +1,19 @@
+@import '../../global/scss/global.scss';
+
+.Backdrop {
+    background-color: darken($color: $main-color, $amount: 60);
+    opacity: 0.5;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1;
+
+    .BackdropInner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

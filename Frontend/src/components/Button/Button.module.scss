@@ -1,0 +1,15 @@
+@import '../../global/scss/global.scss';
+
+button {
+    all: unset;
+    text-align: center;
+    color: $second-main-color;
+    padding: 10px;
+    background-color: $button-color;
+}
+
+button:hover {
+    cursor: pointer;
+    color: darken($color: $main-color, $amount: 3);
+    background-color: darken($color: $button-color, $amount: 3);
+}
