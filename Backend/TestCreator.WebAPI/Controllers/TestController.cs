@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +17,11 @@ namespace TestCreator.WebAPI.Controllers
     public class TestController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
-        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
-        public TestController(UnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
+        public TestController(UnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _userManager = userManager;
             _mapper = mapper;
         }
 
