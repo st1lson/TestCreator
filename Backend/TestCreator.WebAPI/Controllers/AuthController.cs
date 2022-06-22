@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TestCreator.Data.Models;
@@ -69,8 +71,25 @@ namespace TestCreator.WebAPI.Controllers
             }
 
             var (token, _) = _tokenCreator.CreateAuthToken(user);
-            
+
             return Ok(new LoginUserPayload(token, user.UserName));
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        [Authorize(Policy = "Auth")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _signInManager.SignOutAsync().ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
         }
     }
 }
