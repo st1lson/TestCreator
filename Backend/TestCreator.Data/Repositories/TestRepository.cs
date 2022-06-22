@@ -4,7 +4,7 @@ using TestCreator.Data.Models;
 
 namespace TestCreator.Data.Repositories
 {
-    internal class TestRepository : GenericRepository<Test>, ITestRepository
+    public class TestRepository : GenericRepository<Test>, ITestRepository
     {
         public TestRepository(AppDbContext context) : base(context)
         {

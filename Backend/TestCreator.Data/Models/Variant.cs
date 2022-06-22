@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TestCreator.Data.Models
 {
@@ -16,6 +17,7 @@ namespace TestCreator.Data.Models
         [Required]
         public string QuestionId { get; set; }
 
-        public Question Question { get; set; }
+        [JsonIgnore]
+        public virtual Question Question { get; set; }
     }
 }

@@ -27,6 +27,8 @@ namespace TestCreator.Data.DbContexts
                     @"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
             }
 
+            optionsBuilder.UseLazyLoadingProxies();
+
             base.OnConfiguring(optionsBuilder);
         }
 

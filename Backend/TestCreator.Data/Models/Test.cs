@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace TestCreator.Data.Models
 {
@@ -18,8 +19,9 @@ namespace TestCreator.Data.Models
         [AllowNull]
         public string UserId { get; set; }
 
-        public User User { get; set; }
+        [JsonIgnore]
+        public virtual User User { get; set; }
 
-        public List<Question> Questions { get; set; } = new();
+        public virtual List<Question> Questions { get; set; } = new();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TestCreator.Data.Models
 {
@@ -14,8 +15,9 @@ namespace TestCreator.Data.Models
         [Required]
         public string TestId { get; set; }
 
-        public List<Variant> Variants { get; set; }
+        [JsonIgnore]
+        public virtual Test Test { get; set; }
 
-        public Test Test { get; set; }
+        public virtual List<Variant> Variants { get; set; }
     }
 }

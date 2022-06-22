@@ -5,6 +5,6 @@ namespace TestCreator.Data.Models
 {
     public class User : IdentityUser
     {
-        public List<Test> Tests { get; set; } = new();
+        public virtual List<Test> Tests { get; set; } = new();
     }
 }
