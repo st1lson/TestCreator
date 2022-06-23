@@ -6,10 +6,19 @@ button {
     color: $second-main-color;
     padding: 10px;
     background-color: $button-color;
+    border: 1px solid $button-color;
 }
 
 button:hover {
     cursor: pointer;
     color: darken($color: $main-color, $amount: 3);
     background-color: darken($color: $button-color, $amount: 3);
+}
+
+button:disabled,
+button[disabled] {
+    cursor: unset;
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
 }

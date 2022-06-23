@@ -8,9 +8,9 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    border: 2px solid #ffff;
+    border: 2px solid $main-color;
     border-radius: 10px;
-    box-shadow: 0px 0px 18px -4px #000000;
+    box-shadow: 0px 0px 18px -4px $font-color;
 
     .testHeader {
         display: flex;
@@ -30,5 +30,20 @@
     .descriptionButton:hover {
         cursor: pointer;
         text-decoration: underline;
+    }
+}
+
+.popupWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    label {
+        margin: 10px;
+    }
+
+    button {
+        margin: auto;
+        width: 50%;
     }
 }

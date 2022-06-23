@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import Button from '../Button/Button';
 import styles from './TestBox.module.scss';
-import Backdrop from '../Backdrop/Backdrop';
+import Popup from '../Popup/Popup';
+import Checkbox from '../Checkbox/Checkbox';
 
 const TestBox = (props) => {
+    const [isStarting, start] = useState(false);
+    const [proceeded, proceed] = useState(false);
     const [isEnabled, enable] = useState(false);
     const [details, changeDetails] = useState('Check details');
 
@@ -14,26 +17,44 @@ const TestBox = (props) => {
     };
 
     const { testName, description } = props;
+
+    const popup = isStarting ? (
+        <Popup onDismiss={() => start(!isStarting)}>
+            <div className={styles.popupWrapper}>
+                <Checkbox
+                    className={styles.checkbox}
+                    value={proceeded}
+                    onChange={() => proceed(!proceeded)}>
+                    I agree to start
+                </Checkbox>
+                <Button disabled={!proceeded}>Proceed</Button>
+            </div>
+        </Popup>
+    ) : null;
+
     return (
-        <div className={styles.container}>
-            <div className={styles.testHeader}>
-                <h1>{testName}</h1>
-                <Button onClick={onDetailsClick}>Start</Button>
+        <>
+            {popup}
+            <div className={styles.container}>
+                <div className={styles.testHeader}>
+                    <h1>{testName}</h1>
+                    <Button onClick={() => start(!isStarting)}>Start</Button>
+                </div>
+                <div className={styles.testBody}>
+                    <button
+                        className={styles.descriptionButton}
+                        onClick={onDetailsClick}>
+                        {details}
+                    </button>
+                    {isEnabled ? (
+                        <div>
+                            <h3>Description:</h3>
+                            {description}
+                        </div>
+                    ) : null}
+                </div>
             </div>
-            <div className={styles.testBody}>
-                <button
-                    className={styles.descriptionButton}
-                    onClick={onDetailsClick}>
-                    {details}
-                </button>
-                {isEnabled ? (
-                    <div>
-                        <h3>Description:</h3>
-                        {description}
-                    </div>
-                ) : null}
-            </div>
-        </div>
+        </>
     );
 };
 

@@ -1,0 +1,43 @@
+@import '../../global/scss/global.scss';
+
+.Popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $main-color;
+    z-index: 100;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    color: $second-main-color;
+
+    p {
+        font-weight: bold;
+        font-size: 1.3rem;
+        color: $error-message-color;
+    }
+
+    @media (max-width: 75rem) {
+        width: 60%;
+    }
+
+    @media (max-width: 62.5rem) {
+        width: 70%;
+    }
+
+    @media (max-width: 50rem) {
+        width: 80%;
+    }
+
+    @media (max-width: 43.75rem) {
+        width: 100%;
+    }
+    @media (max-width: 43.75rem) {
+        width: 100%;
+    }
+    @media (max-width: 25rem) {
+        width: 100%;
+    }
+}
