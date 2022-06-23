@@ -1,7 +1,6 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 import authTokens from '../../global/js/authTokens';
-import axiosRESTInstance from '../../global/js/axiosConfig';
+import axiosInstance from '../../global/js/axiosInstance';
 import credentials from '../../global/js/credentials';
 import classes from './Layout.module.scss';
 
@@ -12,7 +11,7 @@ const Layout = (props) => {
 
     const handleLogout = () => {
         const { onLogout } = props;
-        axiosRESTInstance.post('auth/logout').then(() => {
+        axiosInstance.post('auth/logout').then(() => {
             authTokens.remove();
             credentials.remove();
             onLogout();

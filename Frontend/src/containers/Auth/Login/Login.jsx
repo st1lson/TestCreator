@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
+import axiosInstance from '../../../global/js/axiosInstance';
 import AuthBox from '../../../components/AuthBox/AuthBox';
+import Button from '../../../components/Button/Button';
+import Input from '../../../components/Input/Input';
+import credentials from '../../../global/js/credentials';
+import authTokens from '../../../global/js/authTokens';
 
 export default class Login extends Component {
     constructor(props) {
@@ -11,12 +16,66 @@ export default class Login extends Component {
         };
     }
 
-    onLoginClick = () => {};
+    onLoginClick = () => {
+        const { userName, password } = this.state;
+
+        if (!userName || !password) {
+            return;
+        }
+
+        this.setState({ isLoading: true });
+
+        axiosInstance
+            .post('/auth/login', {
+                userName,
+                password,
+            })
+            .then((res) => {
+                const { jwtToken, userName } = res.data;
+
+                credentials.set(userName);
+                authTokens.set(jwtToken);
+                const { onLogin } = this.props;
+
+                onLogin();
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => this.setState({ isLoading: false }));
+    };
+
+    onInputChange = (e) => {
+        const { name, value } = e.target;
+
+        this.setState({
+            [name]: value,
+        });
+    };
 
     render() {
         const { userName, password } = this.state;
-        return <>
-            <AuthBox>Hello world</AuthBox>
-        </>;
+
+        return (
+            <>
+                <AuthBox>
+                    <Input
+                        label="Enter your user name"
+                        value={userName}
+                        type="text"
+                        name="userName"
+                        onChange={this.onInputChange}
+                    />
+                    <Input
+                        label="Enter your password"
+                        value={password}
+                        type="password"
+                        name="password"
+                        onChange={this.onInputChange}
+                    />
+                    <Button onClick={this.onLoginClick}>Login</Button>
+                </AuthBox>
+            </>
+        );
     }
 }
