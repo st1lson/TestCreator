@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Home from './containers/Auth/Home/Home';
+import Home from './containers/Home/Home';
 import Login from './containers/Auth/Login/Login';
 import Register from './containers/Auth/Register/Register';
 import authTokens from './global/js/authTokens';
@@ -38,7 +38,7 @@ export default class App extends Component {
 
     render() {
         const { isAuthenticated } = this.state;
-        console.log(isAuthenticated);
+
         return (
             <Layout onLogout={this.onLogout}>
                 {isAuthenticated ? (

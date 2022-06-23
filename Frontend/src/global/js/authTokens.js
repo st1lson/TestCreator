@@ -1,6 +1,5 @@
 import day from 'dayjs';
 import jwtDecode from 'jwt-decode';
-import credentials from './credentials';
 import lsAdapter from './lsAdapter';
 
 const authTokens = {

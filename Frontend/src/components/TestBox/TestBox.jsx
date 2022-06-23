@@ -15,14 +15,14 @@ const TestBox = (props) => {
         changeDetails(newDetails);
         enable(!isEnabled);
     };
-
-    const { testName, description } = props;
+    const { test } = props;
+    const { name, description } = test;
 
     const popup = isStarting ? (
         <Popup onDismiss={() => start(!isStarting)}>
             <div className={styles.popupWrapper}>
                 <div className={styles.textWrapper}>
-                    <h1>{testName}</h1>
+                    <h1>{name}</h1>
                     <h4>{description}</h4>
                 </div>
                 <Checkbox
@@ -41,7 +41,7 @@ const TestBox = (props) => {
             {popup}
             <div className={styles.container}>
                 <div className={styles.testHeader}>
-                    <h1>{testName}</h1>
+                    <h1>{name}</h1>
                     <Button onClick={() => start(!isStarting)}>Start</Button>
                 </div>
                 <div className={styles.testBody}>
