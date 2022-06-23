@@ -2,6 +2,7 @@
 
 button {
     all: unset;
+    user-select: none;
     text-align: center;
     color: $second-main-color;
     padding: 10px;
@@ -18,7 +19,7 @@ button:hover {
 button:disabled,
 button[disabled] {
     cursor: unset;
-    border: 1px solid #999999;
-    background-color: #cccccc;
-    color: #666666;
+    border: 1px solid $disabled-border-color;
+    background-color: $disabled-button-color;
+    color: $disabled-font-color;
 }

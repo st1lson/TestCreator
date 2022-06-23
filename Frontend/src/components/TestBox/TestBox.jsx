@@ -21,6 +21,10 @@ const TestBox = (props) => {
     const popup = isStarting ? (
         <Popup onDismiss={() => start(!isStarting)}>
             <div className={styles.popupWrapper}>
+                <div className={styles.textWrapper}>
+                    <h1>{testName}</h1>
+                    <h4>{description}</h4>
+                </div>
                 <Checkbox
                     className={styles.checkbox}
                     value={proceeded}
