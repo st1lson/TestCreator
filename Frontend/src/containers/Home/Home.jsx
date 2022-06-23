@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Home = (props) => {
-    
+export default class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            tests: []
+        };
+    }
+
+    componentDidMount() {
+        this.fetchTests();
+    }
+
+    fetchTests() {
+        const { tests } = this.state;
+    }
 };
-
-export default Home;
