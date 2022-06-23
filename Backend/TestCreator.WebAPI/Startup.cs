@@ -27,10 +27,14 @@ namespace TestCreator.WebAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
+            });
+
+            services.AddDbContextPool<RefreshTokensDbContext>(options =>
             {
                 options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
             });
@@ -84,7 +88,6 @@ namespace TestCreator.WebAPI
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
