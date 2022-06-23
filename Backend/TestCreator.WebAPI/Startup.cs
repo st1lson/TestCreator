@@ -29,6 +29,15 @@ namespace TestCreator.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("dev",
+                    builder => builder
+                        .WithOrigins(@"http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            });
+
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
@@ -96,6 +105,8 @@ namespace TestCreator.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TestCreator.WebAPI v1"));
             }
+
+            app.UseCors("dev");
 
             app.UseHttpsRedirection();
 
