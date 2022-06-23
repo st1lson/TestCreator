@@ -1,6 +1,6 @@
 import lsAdapter from './lsAdapter';
 
-export const credentials = {
+const credentials = {
     get() {
         const username = lsAdapter.get('sessionId');
 
@@ -18,5 +18,7 @@ export const credentials = {
     },
     exists() {
         return !!this.get();
-    }
-}
+    },
+};
+
+export default credentials;

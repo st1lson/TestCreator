@@ -13,5 +13,5 @@ export const session = {
     },
     exists() {
         return !!this.get();
-    }
+    },
 };

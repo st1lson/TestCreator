@@ -21,7 +21,7 @@ const lsAdapter = {
         }
 
         localStorage.removeItem(key);
-    }
+    },
 };
 
 export default lsAdapter;

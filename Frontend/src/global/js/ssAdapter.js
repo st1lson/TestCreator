@@ -21,7 +21,7 @@ const ssAdapter = {
         }
 
         sessionStorage.removeItem(key);
-    }
+    },
 };
 
 export default ssAdapter;

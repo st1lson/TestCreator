@@ -4,7 +4,7 @@ const lsTest = () => {
         localStorage.setItem(test, test);
         localStorage.removeItem(test);
         return true;
-    } catch(e) {
+    } catch (e) {
         return false;
     }
 };

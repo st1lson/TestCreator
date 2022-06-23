@@ -4,7 +4,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tests: []
+            tests: [],
         };
     }
 
@@ -15,4 +15,11 @@ export default class Home extends Component {
     fetchTests() {
         const { tests } = this.state;
     }
-};
+
+    render() {
+        return (
+            <>
+            </>
+        );
+    }
+}

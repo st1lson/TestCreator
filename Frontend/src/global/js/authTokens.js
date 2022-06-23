@@ -2,7 +2,7 @@ import day from 'dayjs';
 import jwtDecode from 'jwt-decode';
 import lsAdapter from './lsAdapter';
 
-export const authTokens = {
+const authTokens = {
     get() {
         const authToken = lsAdapter.get('authTokens');
         const refreshToken = lsAdapter.get('refreshToken');
@@ -20,8 +20,8 @@ export const authTokens = {
         if (authToken && expires) {
             return {
                 authToken,
-                expires
-            }
+                expires,
+            };
         }
 
         return null;
@@ -47,5 +47,7 @@ export const authTokens = {
         const expireDate = day.unix(exp);
 
         return day().isBefore(day(expireDate));
-    }
-}
+    },
+};
+
+export default authTokens;

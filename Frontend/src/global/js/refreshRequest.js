@@ -18,20 +18,20 @@ const refreshRequest = {
         return axiosInstance
             .post('/auth/refresh', null, {
                 headers: {
-                    authorization: `Bearer ${refreshTokens}`,
-                }
+                    authorization: `Bearer ${refreshToken}`,
+                },
             })
-            .then(res => {
+            .then((res) => {
                 const { authToken, expires } = res.data;
                 authTokens.set(authToken, refreshToken, expires);
                 this.isPending = false;
                 return Promise.resolve(res);
             })
-            .catch(err => {
+            .catch((err) => {
                 this.isPending = false;
                 return Promise.reject(err);
             });
-    }
+    },
 };
 
 export default refreshRequest;
