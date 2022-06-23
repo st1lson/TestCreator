@@ -1,10 +1,11 @@
 import day from 'dayjs';
 import jwtDecode from 'jwt-decode';
+import credentials from './credentials';
 import lsAdapter from './lsAdapter';
 
 const authTokens = {
     get() {
-        const authToken = lsAdapter.get('authTokens');
+        const authToken = lsAdapter.get('authToken');
         const refreshToken = lsAdapter.get('refreshToken');
 
         let decodedToken;
@@ -17,9 +18,10 @@ const authTokens = {
         const { exp } = decodedToken;
         const expires = day.unix(exp);
 
-        if (authToken && expires) {
+        if (authToken && refreshToken && expires) {
             return {
                 authToken,
+                refreshToken,
                 expires,
             };
         }

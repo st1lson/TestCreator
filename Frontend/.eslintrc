@@ -21,6 +21,7 @@
         }
     },
     "rules": {
+        "arrow-parens": 1,
         "no-invalid-this": 0,
         "linebreak-style": ["error", "windows"],
         "at-rule-no-unknown": 0,

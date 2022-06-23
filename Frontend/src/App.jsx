@@ -2,7 +2,8 @@ import { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './containers/Auth/Home/Home';
 import Login from './containers/Auth/Login/Login';
-import authToken from './global/js/authTokens';
+import Register from './containers/Auth/Register/Register';
+import authTokens from './global/js/authTokens';
 import credentials from './global/js/credentials';
 import Layout from './components/Layout/Layout';
 
@@ -10,21 +11,21 @@ export default class App extends Component {
     constructor(props) {
         super(props);
 
-        if (!authToken.valid()) {
+        if (!authTokens.valid()) {
             credentials.reset();
-            authToken.reset();
+            authTokens.reset();
         }
 
         this.state = {
             user: credentials.get(),
-            isAuthenticated: authToken.valid(),
+            isAuthenticated: authTokens.valid(),
         };
     }
 
     onLogin = () => {
         this.setState({
             user: credentials.get(),
-            isAuthenticated: authToken.valid(),
+            isAuthenticated: authTokens.valid(),
         });
     };
 
@@ -37,7 +38,6 @@ export default class App extends Component {
 
     render() {
         const { isAuthenticated } = this.state;
-
         console.log(isAuthenticated);
         return (
             <Layout onLogout={this.onLogout}>
@@ -53,9 +53,9 @@ export default class App extends Component {
                         <Route path="/login">
                             <Login onLogin={this.onLogin} />
                         </Route>
-                        {/* <Route path="/register">
+                        <Route path="/register">
                             <Register onLogin={this.onLogin} />
-                        </Route> */}
+                        </Route>
                         <Redirect to="/login" />
                     </Switch>
                 )}

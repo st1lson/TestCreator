@@ -8,10 +8,6 @@ export default class Home extends Component {
         };
     }
 
-    componentDidMount() {
-        this.fetchTests();
-    }
-
     fetchTests() {
         const { tests } = this.state;
     }
