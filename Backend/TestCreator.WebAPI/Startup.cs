@@ -49,21 +49,25 @@ namespace TestCreator.WebAPI
             });
 
             services.AddScoped<JwtTokenCreator>();
+            services.AddScoped<JwtRefreshTokenHandler>();
             services.AddScoped<UnitOfWork>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHttpContextAccessor();
 
             services
                 .AddIdentity<User, IdentityRole>(options =>
                 {
+                    options.Password.RequiredLength = 6;
                     options.Password.RequireDigit = true;
                     options.Password.RequireLowercase = true;
-                    options.Password.RequireNonAlphanumeric = true;
                     options.Password.RequireUppercase = true;
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequiredUniqueChars = 1;
+                    options.Password.RequireNonAlphanumeric = true;
                 })
                 .AddEntityFrameworkStores<AppDbContext>();
+
+            string signingKeyPhrase = Configuration["SigningKeyPhrase"];
+            SymmetricSecurityKey signingKey = new(Encoding.UTF8.GetBytes(signingKeyPhrase));
 
             services
                 .AddAuthentication(options =>
@@ -77,17 +81,19 @@ namespace TestCreator.WebAPI
                     config.SaveToken = true;
                     config.TokenValidationParameters = new TokenValidationParameters
                     {
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration["SigningKeyPhrase"])),
-                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = signingKey,
                         ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Auth", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Auth"));
+                options.AddPolicy("Refresh", policy => policy.RequireClaim(JwtRegisteredClaimNames.Typ, "Refresh"));
             });
 
             services.AddControllers();

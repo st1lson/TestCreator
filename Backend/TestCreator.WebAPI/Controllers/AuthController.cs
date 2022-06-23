@@ -19,12 +19,18 @@ namespace TestCreator.WebAPI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly JwtRefreshTokenHandler _tokenHandler;
         private readonly JwtTokenCreator _tokenCreator;
 
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, JwtTokenCreator tokenCreator)
+        public AuthController(
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager, 
+            JwtRefreshTokenHandler tokenHandler, 
+            JwtTokenCreator tokenCreator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenHandler = tokenHandler;
             _tokenCreator = tokenCreator;
         }
 
@@ -48,8 +54,9 @@ namespace TestCreator.WebAPI.Controllers
                 .PasswordSignInAsync(user, input.Password, isPersistent: false, lockoutOnFailure: false);
 
             var (token, _) = _tokenCreator.CreateAuthToken(user);
+            var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
 
-            return Ok(new LoginUserPayload(token, user.UserName));
+            return Ok(new LoginUserPayload(token, refreshToken, user.UserName));
         }
 
         [HttpPost]
@@ -71,8 +78,9 @@ namespace TestCreator.WebAPI.Controllers
             }
 
             var (token, _) = _tokenCreator.CreateAuthToken(user);
+            var (refreshToken, _) = await _tokenHandler.WriteIfExpiredAsync(user).ConfigureAwait(false);
 
-            return Ok(new LoginUserPayload(token, user.UserName));
+            return Ok(new LoginUserPayload(token, refreshToken, user.UserName));
         }
 
         [HttpPost]

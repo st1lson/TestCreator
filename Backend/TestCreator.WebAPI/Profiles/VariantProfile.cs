@@ -1,5 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
+using System;
 using TestCreator.Data.Models;
 using TestCreator.WebAPI.Dtos.Variants;
 
