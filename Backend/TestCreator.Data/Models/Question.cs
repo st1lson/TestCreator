@@ -12,7 +12,6 @@ namespace TestCreator.Data.Models
         [Required]
         public string Body { get; set; }
 
-        [Required]
         public string TestId { get; set; }
 
         [JsonIgnore]

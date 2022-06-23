@@ -14,7 +14,6 @@ namespace TestCreator.Data.Models
         [Required]
         public bool IsAnswer { get; set; }
 
-        [Required]
         public string QuestionId { get; set; }
 
         [JsonIgnore]
