@@ -1,7 +1,7 @@
 using AutoMapper;
 using System;
 using TestCreator.Data.Models;
-using TestCreator.WebAPI.Dtos.Tests;
+using TestCreator.WebAPI.Dtos.Tests.Inputs;
 
 namespace TestCreator.WebAPI.Profiles
 {
