@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useHistory, Redirect } from 'react-router-dom';
 import Button from '../Button/Button';
 import styles from './TestBox.module.scss';
 import Popup from '../Popup/Popup';
 import Checkbox from '../Checkbox/Checkbox';
 
 const TestBox = (props) => {
+    const [isStarted, confirm] = useState(false);
     const [isStarting, start] = useState(false);
     const [proceeded, proceed] = useState(false);
     const [isEnabled, enable] = useState(false);
@@ -15,8 +17,10 @@ const TestBox = (props) => {
         changeDetails(newDetails);
         enable(!isEnabled);
     };
+
     const { test } = props;
-    const { name, description } = test;
+    const { id, name, description, questions } = test;
+    const data = { id, name, questions };
 
     const popup = isStarting ? (
         <Popup onDismiss={() => start(!isStarting)}>
@@ -31,7 +35,11 @@ const TestBox = (props) => {
                     onChange={() => proceed(!proceeded)}>
                     I agree to start
                 </Checkbox>
-                <Button disabled={!proceeded}>Proceed</Button>
+                <Button
+                    onClick={() => confirm(!isStarted)}
+                    disabled={!proceeded}>
+                    Proceed
+                </Button>
             </div>
         </Popup>
     ) : null;
@@ -58,6 +66,14 @@ const TestBox = (props) => {
                     ) : null}
                 </div>
             </div>
+            {isStarted ? (
+                <Redirect
+                    to={{
+                        pathname: '/home/test',
+                        state: data,
+                    }}
+                />
+            ) : null}
         </>
     );
 };
