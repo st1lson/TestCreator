@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestCreator.Data.Models;
 using TestCreator.Data.Repositories;
-using TestCreator.WebAPI.Dtos.Tests;
+using TestCreator.WebAPI.Dtos.Tests.Inputs;
+using TestCreator.WebAPI.Extensions;
+using TestCreator.WebAPI.Validators.Tests;
 
 namespace TestCreator.WebAPI.Controllers
 {
@@ -43,7 +46,7 @@ namespace TestCreator.WebAPI.Controllers
             Test test = _unitOfWork.TestRepository.GetById(id);
             if (test.UserId != userId)
             {
-                return BadRequest();
+                return BadRequest(new { errors = ErrorMessages.ForeignTestId });
             }
 
             return Ok(test);
@@ -53,9 +56,12 @@ namespace TestCreator.WebAPI.Controllers
         [Authorize(Policy = "Auth")]
         public async Task<IActionResult> Create([FromServices] IHttpContextAccessor accessor, CreateTestInput input)
         {
-            if (!ModelState.IsValid)
+            CreateTestInputValidator validator = new();
+            ValidationResult validationResult = await validator.ValidateAsync(input);
+
+            if (!validationResult.IsValid)
             {
-                return BadRequest();
+                return BadRequest(new { errors = validationResult.Errors });
             }
 
             Test newTest = _mapper.Map<Test>(input);
