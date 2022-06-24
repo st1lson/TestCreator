@@ -105,9 +105,7 @@ export default class Test extends Component {
                                 />
                             );
                         })}
-                        <Button onClick={this.onEndTestClick}>
-                            Back
-                        </Button>
+                        <Button onClick={this.onEndTestClick}>Back</Button>
                         {backToMenu ? (
                             <Redirect
                                 to={{

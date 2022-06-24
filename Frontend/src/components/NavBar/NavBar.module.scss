@@ -1,0 +1,29 @@
+@import '../../global/scss/global.scss';
+
+.navWrapper {
+    position: fixed;
+    background-color: $nav-color;
+    right: 0;
+    left: 0;
+    top: 0;
+    padding-top: 2rem;
+    ul {
+        display: flex;
+        flex-direction: row-reverse;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        li {
+            color: $font-color;
+            min-width: 6rem;
+            display: inline-block;
+            padding: 1.5rem;
+            margin-left: 10rem;
+            text-decoration: none;
+        }
+        a {
+            text-decoration: none;
+            color: $font-color;
+        }
+    }
+}
