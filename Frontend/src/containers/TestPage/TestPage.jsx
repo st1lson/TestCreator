@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
-import Variant from '../../components/Question/Variant';
+import Variant from '../../components/Variant/Variant';
 import styles from './TestPage.module.scss';
 
 const TestPage = (props) => {
+    const [answer, selectAnswer] = useState(null);
+
     const {
         onNextQuestion,
         onPreviousQuestion,
@@ -11,6 +13,20 @@ const TestPage = (props) => {
         question,
         currentQuestion,
     } = props;
+
+    const onCheckboxChange = (e) => {
+        const { name } = e.target;
+        for (let i = 0; i < variants.length; i++) {
+            const element = variants[i];
+            if (element?.id === name) {
+                element.checked = true;
+                selectAnswer(element);
+                continue;
+            }
+
+            element.checked = false;
+        }
+    };
 
     const questionMessage = `${currentQuestion + 1} Question`;
     const { body, variants } = question;
@@ -24,11 +40,17 @@ const TestPage = (props) => {
             </div>
             <div className={styles.bodyWrapper}>
                 {variants.map((variant) => (
-                    <Variant key={variant?.id} variant={variant} />
+                    <Variant
+                        key={variant?.id}
+                        name={variant?.id}
+                        value={variant?.checked}
+                        variant={variant}
+                        onChange={onCheckboxChange}
+                    />
                 ))}
             </div>
             <div className={styles.nextButton}>
-                <Button onClick={onNextQuestion}>Next question</Button>
+                <Button onClick={() => onNextQuestion(answer)}>Next question</Button>
             </div>
             {currentQuestion ? (
                 <div className={styles.previousButton}>
