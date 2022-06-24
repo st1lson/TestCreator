@@ -15,5 +15,7 @@
         public const string InvalidCredentials = "Given credentials are not valid";
 
         public const string UserExists = "The user with the given credentials already exists";
+
+        public const string ForeignTestId = "The given test id is foreign for the current user";
     }
 }
