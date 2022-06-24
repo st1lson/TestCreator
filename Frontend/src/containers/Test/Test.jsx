@@ -10,35 +10,58 @@ export default class Test extends Component {
             id: data?.id,
             name: data?.name,
             questions: data?.questions,
-            currentQuestion: 0,
+            currentQuestion: data?.questions[0],
+            questionIndex: 0,
+            isCompleted: false,
         };
     }
 
-    onPreviousQuestion() {
-        console.log('previous');
-    }
+    onPreviousQuestion = () => {
+        const { questions } = this.state;
+        let { questionIndex } = this.state;
+        questionIndex--;
 
-    onNextQuestion() {
-        console.log('next');
-    }
+        this.setState({
+            questionIndex,
+            currentQuestion: questions[questionIndex],
+        });
+    };
+
+    onNextQuestion = () => {
+        const { questions } = this.state;
+        let { questionIndex } = this.state;
+        if (questionIndex + 1 === questions.length) {
+            this.setState({ isCompleted: true });
+            return;
+        }
+
+        questionIndex++;
+
+        this.setState({
+            questionIndex,
+            currentQuestion: questions[questionIndex],
+        });
+    };
 
     render() {
-        const { id, name, questions, currentQuestion } = this.state;
+        const { id, name, currentQuestion, questionIndex, isCompleted } = this.state;
         let page = 0;
 
         return (
             <div>
-                {questions.map((question) => (
+                {!isCompleted ? (
                     <TestPage
                         key={id}
                         testName={name}
-                        question={question}
-                        currentQuestion={currentQuestion}
+                        question={currentQuestion}
+                        currentQuestion={questionIndex}
                         page={page++}
                         onPreviousQuestion={this.onPreviousQuestion}
                         onNextQuestion={this.onNextQuestion}
                     />
-                ))}
+                ) : (
+                    <div>Results</div>
+                )}
             </div>
         );
     }

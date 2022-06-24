@@ -1,0 +1,23 @@
+@import '../../global/scss/global.scss';
+
+.headerWrapper,
+.bodyWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bodyWrapper {
+    padding: 1rem;
+    margin: 2rem auto 1rem;
+}
+
+.nextButton {
+    float: right;
+    margin-right: 20%;
+}
+
+.previousButton {
+    float: left;
+    margin-left: 20%;
+}

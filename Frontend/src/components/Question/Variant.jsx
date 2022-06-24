@@ -1,13 +1,14 @@
 import React from 'react';
+import Checkbox from '../Checkbox/Checkbox';
+import styles from './Variant.module.scss';
 
 const Variant = (props) => {
     const { variant, currentQuestion } = props;
     const { body } = variant;
-    const questionMessage = `${currentQuestion + 1} Question`;
 
     return (
-        <div>
-            {body}
+        <div className={styles.variantWrapper}>
+            <Checkbox>{body}</Checkbox>
         </div>
     );
 };
