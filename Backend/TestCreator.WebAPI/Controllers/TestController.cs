@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestCreator.Data.Models;
 using TestCreator.Data.Repositories;
-using TestCreator.WebAPI.Dtos.Tests;
+using TestCreator.WebAPI.Dtos.Tests.Inputs;
 
 namespace TestCreator.WebAPI.Controllers
 {

@@ -23,9 +23,9 @@ namespace TestCreator.WebAPI.Controllers
         private readonly JwtTokenCreator _tokenCreator;
 
         public AuthController(
-            UserManager<User> userManager, 
-            SignInManager<User> signInManager, 
-            JwtRefreshTokenHandler tokenHandler, 
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            JwtRefreshTokenHandler tokenHandler,
             JwtTokenCreator tokenCreator)
         {
             _userManager = userManager;
