@@ -1,4 +1,8 @@
 .homeWrapper {
+    width: 95%;
     display: flex;
-    flex: row;
+    justify-content: space-between;
+
+    gap: 2%;
+    flex-wrap: wrap;
 }
