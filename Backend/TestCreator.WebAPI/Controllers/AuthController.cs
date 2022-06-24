@@ -1,3 +1,4 @@
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,8 @@ using TestCreator.Data.Models;
 using TestCreator.Services.Auth;
 using TestCreator.WebAPI.Dtos.Auth.Inputs;
 using TestCreator.WebAPI.Dtos.Auth.Payloads;
+using TestCreator.WebAPI.Extensions;
+using TestCreator.WebAPI.Validators.Auth;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace TestCreator.WebAPI.Controllers
@@ -38,6 +41,14 @@ namespace TestCreator.WebAPI.Controllers
         [Route("register")]
         public async Task<IActionResult> Register(RegisterUserInput input)
         {
+            RegisterUserInputValidator validator = new();
+            ValidationResult validationResult = await validator.ValidateAsync(input);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(new { errors = validationResult.Errors });
+            }
+
             User user = new()
             {
                 UserName = input.UserName,
@@ -47,7 +58,7 @@ namespace TestCreator.WebAPI.Controllers
             IdentityResult result = await _userManager.CreateAsync(user, input.Password);
             if (!result.Succeeded)
             {
-                return BadRequest();
+                return BadRequest(new { errors = new { ErrorMessages.InvalidCredentials } });
             }
 
             await _signInManager
@@ -63,10 +74,18 @@ namespace TestCreator.WebAPI.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginUserInput input)
         {
+            LoginUserInputValidator validator = new();
+            ValidationResult validationResult = await validator.ValidateAsync(input);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(new { errors = validationResult.Errors });
+            }
+
             User user = _userManager.Users.FirstOrDefault(u => u.UserName == input.UserName);
             if (user is null)
             {
-                return BadRequest();
+                return BadRequest(new { errors = ErrorMessages.UserExists });
             }
 
             SignInResult result = await _signInManager
@@ -74,7 +93,7 @@ namespace TestCreator.WebAPI.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest();
+                return BadRequest(new { error = ErrorMessages.InvalidCredentials });
             }
 
             var (token, _) = _tokenCreator.CreateAuthToken(user);
