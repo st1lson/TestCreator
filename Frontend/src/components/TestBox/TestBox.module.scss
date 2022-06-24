@@ -1,0 +1,50 @@
+@import '../../global/scss/global.scss';
+
+.container {
+    background-color: $second-main-color;
+    max-width: 40%;
+    min-width: 30%;
+    margin-top: 50px;
+    margin-left: 50px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid $main-color;
+    border-radius: 10px;
+    box-shadow: 0px 0px 18px -4px $font-color;
+
+    .testHeader {
+        display: flex;
+        margin-top: 20px;
+        justify-content: space-between;
+        align-items: center;
+
+        button {
+            width: 100px;
+        }
+    }
+
+    .descriptionButton {
+        all: unset;
+    }
+
+    .descriptionButton:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+.popupWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    label {
+        margin: 10px;
+    }
+
+    button {
+        margin: auto;
+        width: 50%;
+    }
+}

@@ -21,6 +21,9 @@
         }
     },
     "rules": {
+        "arrow-parens": 1,
+        "no-invalid-this": 0,
+        "linebreak-style": ["error", "windows"],
         "at-rule-no-unknown": 0,
         "no-unused-private-class-members": 0,
         "sh-waqar/declaration-use-variable": 0,

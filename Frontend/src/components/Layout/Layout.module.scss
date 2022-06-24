@@ -1,0 +1,22 @@
+@import '../../global/scss/global.scss';
+
+.layoutWrapper {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    background-color: $second-main-color;
+    color: $second-font-color;
+    padding: 0.5rem;
+    display: flex;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: -1px 17px 50px 9px rgba(0,0,0,0.48);
+    h1 {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 2rem;
+        z-index: 2;
+    }
+}
