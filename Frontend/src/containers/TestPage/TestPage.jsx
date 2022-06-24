@@ -50,7 +50,9 @@ const TestPage = (props) => {
                 ))}
             </div>
             <div className={styles.nextButton}>
-                <Button onClick={() => onNextQuestion(answer)}>Next question</Button>
+                <Button onClick={() => onNextQuestion(answer)}>
+                    Next question
+                </Button>
             </div>
             {currentQuestion ? (
                 <div className={styles.previousButton}>

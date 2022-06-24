@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import Button from '../../components/Button/Button';
+import ResultBox from '../../components/ResultBox/ResultBox';
 import TestPage from '../TestPage/TestPage';
+import styles from './Test.module.scss';
 
 export default class Test extends Component {
     constructor(props) {
@@ -25,6 +29,7 @@ export default class Test extends Component {
             questionIndex: 0,
             isCompleted: false,
             answers: [],
+            backToMenu: false,
         };
     }
 
@@ -42,10 +47,6 @@ export default class Test extends Component {
     onNextQuestion = (answer) => {
         const { questions, currentQuestion, answers } = this.state;
         let { questionIndex } = this.state;
-        if (questionIndex + 1 === questions.length) {
-            this.setState({ isCompleted: true });
-            return;
-        }
 
         const { isAnswer } = answer;
         answers[questionIndex] = isAnswer;
@@ -60,20 +61,26 @@ export default class Test extends Component {
             answers,
         });
 
-        console.log(currentQuestion);
+        if (questionIndex === questions.length) {
+            this.setState({ isCompleted: true });
+        }
+    };
+
+    onEndTestClick = () => {
+        this.setState({ backToMenu: true });
     };
 
     render() {
         const {
             id,
             name,
+            questions,
             currentQuestion,
             questionIndex,
             isCompleted,
             answers,
+            backToMenu,
         } = this.state;
-
-        console.log(answers);
 
         return (
             <div>
@@ -87,8 +94,27 @@ export default class Test extends Component {
                         onNextQuestion={this.onNextQuestion}
                     />
                 ) : (
-                    <div>
-                        Results
+                    <div className={styles.resultWrapper}>
+                        <h1>Results</h1>
+                        {questions.map((question, index) => {
+                            return (
+                                <ResultBox
+                                    key={question?.id}
+                                    question={question?.body}
+                                    isCorrect={answers[index]}
+                                />
+                            );
+                        })}
+                        <Button onClick={this.onEndTestClick}>
+                            To main page
+                        </Button>
+                        {backToMenu ? (
+                            <Redirect
+                                to={{
+                                    pathname: '/home',
+                                }}
+                            />
+                        ) : null}
                     </div>
                 )}
             </div>

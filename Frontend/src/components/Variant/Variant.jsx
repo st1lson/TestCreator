@@ -8,7 +8,9 @@ const Variant = (props) => {
 
     return (
         <div className={styles.variantWrapper}>
-            <Checkbox name={name} onChange={onChange} value={value}>{body}</Checkbox>
+            <Checkbox name={name} onChange={onChange} value={value}>
+                {body}
+            </Checkbox>
         </div>
     );
 };
