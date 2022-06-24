@@ -40,12 +40,12 @@ namespace TestCreator.WebAPI
 
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
+                options.UseSqlServer(Configuration["DatabaseConnection"]);
             });
 
             services.AddDbContextPool<RefreshTokensDbContext>(options =>
             {
-                options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=test_creator;Trusted_connection=True;");
+                options.UseSqlServer(Configuration["DatabaseConnection"]);
             });
 
             services.AddScoped<JwtTokenCreator>();
